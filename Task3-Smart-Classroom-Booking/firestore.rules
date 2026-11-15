@@ -1,0 +1,64 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() { return request.auth != null; }
+
+    function isAdmin() {
+      return signedIn() &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'ADMIN';
+    }
+
+    // First-run seeding is allowed until meta/seeded exists (see DataSeeder).
+    function canSeed() {
+      return signedIn() && !exists(/databases/$(database)/documents/meta/seeded);
+    }
+
+    match /meta/{doc} {
+      allow read: if signedIn();
+      allow create: if canSeed();
+    }
+
+    match /users/{uid} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.auth.uid == uid;
+      allow update: if signedIn() && request.auth.uid == uid
+                    && request.resource.data.role == resource.data.role;
+    }
+
+    match /classrooms/{roomId} {
+      allow read: if signedIn();
+      allow create: if isAdmin() || canSeed();
+      allow update, delete: if isAdmin();
+
+      match /seats/{seatId} {
+        allow read: if signedIn();
+        allow create: if isAdmin() || canSeed();
+        allow update, delete: if isAdmin();
+      }
+    }
+
+    match /sessions/{sessionId} {
+      allow read: if signedIn();
+      allow create: if isAdmin() || canSeed();
+      allow update, delete: if isAdmin();
+    }
+
+    match /bookings/{bookingId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid
+                    && request.resource.data.status == 'ACTIVE';
+      // owner cancels own booking, admin can cancel any
+      allow update: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow delete: if false;
+    }
+
+    // Lock documents that make booking atomic (see BookingRepository)
+    match /slots/{slotId} {
+      allow read: if signedIn();
+      allow create: if signedIn() && request.resource.data.userId == request.auth.uid;
+      allow delete: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow update: if false;
+    }
+  }
+}

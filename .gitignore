@@ -14,4 +14,10 @@ target/
 
 # OS files
 .DS_Store
-Thumbs.db
+Thumbs.dbbuild/
+.gradle/
+local.properties
+*.apk
+*.aab
+.cxx/
+captures/

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFFFF</color>
+    <color name="primary">#3949AB</color>
+    <color name="primary_container">#E8EAF6</color>
+    <color name="text_dark">#212121</color>
+
+    <!-- Seat states -->
+    <color name="seat_available">#43A047</color>
+    <color name="seat_booked">#E53935</color>
+    <color name="seat_selected">#1E88E5</color>
+    <color name="seat_match">#FFB300</color>
+    <color name="seat_mine">#7E57C2</color>
+    <color name="seat_blocked">#9E9E9E</color>
+</resources>

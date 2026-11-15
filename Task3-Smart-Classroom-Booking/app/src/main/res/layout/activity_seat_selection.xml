@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent" android:layout_height="?attr/actionBarSize"
+        app:navigationIcon="@drawable/ic_arrow_back" app:title="Select a seat" />
+
+    <ScrollView
+        android:layout_width="match_parent" android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/contentLayout"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:orientation="vertical" android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:gravity="center_vertical" android:orientation="horizontal">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/dateButton"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="wrap_content" android:layout_height="56dp"
+                    android:text="Today" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sessionLayout"
+                    style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+                    android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp" android:layout_weight="1"
+                    android:hint="Session">
+                    <com.google.android.material.textfield.MaterialAutoCompleteTextView
+                        android:id="@+id/sessionDropdown"
+                        android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:inputType="none" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </LinearLayout>
+
+            <HorizontalScrollView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" android:scrollbars="none">
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/filterGroup"
+                    android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    app:singleLine="true">
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipWindow"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Window" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipCharging"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Charging Port" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipExit"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Near Exit" />
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/chipAccessible"
+                        style="@style/Widget.Material3.Chip.Filter"
+                        android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:text="Accessible" />
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+
+            <LinearLayout
+                android:id="@+id/summaryContainer"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:orientation="vertical">
+            <TextView
+                android:id="@+id/summaryText"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:textAppearance="?attr/textAppearanceTitleMedium" />
+
+            <TextView
+                android:id="@+id/hintText"
+                android:layout_width="match_parent" android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="12dp" android:layout_marginBottom="8dp"
+                android:background="@drawable/bg_front_bar" android:gravity="center"
+                android:padding="6dp" android:text="FRONT OF ROOM"
+                android:textColor="@color/primary" android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/seatGrid"
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:nestedScrollingEnabled="false" android:overScrollMode="never" />
+
+            <GridLayout
+                android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:layout_marginTop="16dp" android:columnCount="3">
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:drawableStart="@drawable/dot"
+                    android:drawableTint="@color/seat_available" android:drawablePadding="6dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:text="Available" android:textSize="12sp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:drawableStart="@drawable/dot"
+                    android:drawableTint="@color/seat_booked" android:drawablePadding="6dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:text="Booked" android:textSize="12sp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:drawableStart="@drawable/dot"
+                    android:drawableTint="@color/seat_selected" android:drawablePadding="6dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:text="Selected" android:textSize="12sp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:drawableStart="@drawable/dot"
+                    android:drawableTint="@color/seat_match" android:drawablePadding="6dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:text="Filter match" android:textSize="12sp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:drawableStart="@drawable/dot"
+                    android:drawableTint="@color/seat_mine" android:drawablePadding="6dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:text="My seat" android:textSize="12sp" />
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                    android:layout_columnWeight="1" android:drawableStart="@drawable/dot"
+                    android:drawableTint="@color/seat_blocked" android:drawablePadding="6dp"
+                    android:paddingTop="4dp" android:paddingBottom="4dp" android:text="Maintenance" android:textSize="12sp" />
+            </GridLayout>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
